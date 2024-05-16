@@ -14,7 +14,7 @@ def saveCode(code):
     return result.inserted_id
 
 def getCodes():
-    return codesCollection
+    return codesCollection.find({})
 
 def deleteAllCodes():
     codesCollection.delete_many({})

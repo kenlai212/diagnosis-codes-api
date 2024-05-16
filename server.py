@@ -1,6 +1,8 @@
 from flask import Flask, request, abort
-import util as util
-import service as service
+import util
+import service
+import db
+import json
 
 app = Flask(__name__)
 
@@ -27,6 +29,20 @@ def postDiagnosisCode():
 
     return ("success!")
 
+@app.route('/semantic-search', methods=['POST'])
+def semanticSearch():
+    body = request.get_json()
+
+    try:
+        util.validateSemanticSearchRequest(body)
+    except Exception as e:
+        print(e)
+        abort(400, e)
+
+    codes = db.getCodes()
+    print(codes)
+
+    return (json.dump(codes))
 
 if __name__ == "__main__":
     app.run(debug=True)

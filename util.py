@@ -16,3 +16,7 @@ def getBioSentVectorEmbedding(sentence):
     response_obj = {"sentence":sentence, "prppedSengence":sentence, "vector":[0.001, 0.002, 0.003]}
     
     return (response_obj.get("vector"))
+
+def validateSemanticSearchRequest(body):
+    if body.get("sentence") is None:
+        raise Exception("sentence is mandatory")
