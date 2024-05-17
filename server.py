@@ -39,10 +39,25 @@ def semanticSearch():
         print(e)
         abort(400, e)
 
-    codes = db.getCodes()
-    print(codes)
+    try:
+        searchVector = util.getBioSentVectorEmbedding(body.get("sentence"))
+    except Exception as e:
+        print(e)
+        abort(500, e)
 
-    return (json.dump(codes))
+    try:
+        result = db.searchSimilar(searchVector)
+    except Exception as e:
+        print(e)
+        abort(500, e)
+
+    output = []
+    for i in result:
+        output.append(i)
+
+    outputObj = {"output":output}
+    print(outputObj)
+    return (outputObj)
 
 if __name__ == "__main__":
     app.run(debug=True)
